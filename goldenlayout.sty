@@ -1,0 +1,125 @@
+\RequirePackage{l3keys2e,xparse}
+\ProvidesExplPackage{goldenlayout} {2022/12/09}{1.0} {Golden ratio layout}
+
+\RequirePackage{fontspec}
+\RequirePackage{geometry}
+\RequirePackage{layoutbase}
+
+\ExplSyntaxOn
+
+\msg_new:nnn {goldenlayout} {info-message} {#1}
+
+\keys_define:nn { glo } {
+	fontsize			.dim_set:N = \l_glo_fontsize_dim,
+	fontsize			.initial:n = { 12pt },
+	fontsize			.value_required:n = true,
+	onecolumn			.bool_set:N = \l_glo_onecolumn_bool,
+	onecolumn			.initial:n = true,
+	onecolumncpl		.int_set:N = \l_glo_cpl_oc_int,
+	onecolumncpl		.initial:n = 66,
+	onecolumncpl		.value_required:n = true,
+	twocolumn			.bool_set:N = \l_glo_twocolumn_bool,
+	twocolumn			.initial:n = false,
+	twocolumncpl		.int_set:N = \l_glo_cpl_tc_int,
+	twocolumncpl		.initial:n = 45,
+	twocolumncpl		.value_required:n = true,
+	seriffont			.tl_set:N = \l_glo_seriffont_tl,
+	seriffont			.initial:n = { Linux Libertine O },
+	seriffont			.value_required:n = true,
+	sansfont			.tl_set:N = \l_glo_sansfont_tl,
+	sansfont			.initial:n = { Linux Biolinum O },
+	sansfont			.value_required:n = true,
+	monofont			.tl_set:N = \l_glo_monofont_tl,
+	monofont			.initial:n = { Droid Sans Mono },
+	monofont			.value_required:n = true,
+}
+
+\ProcessKeysOptions { glo }
+
+% KOMA options
+\KOMAoptions{ fontsize = \dim_use:N \l_glo_fontsize_dim }
+
+% fontspec options
+\setmainfont{\l_glo_seriffont_tl}
+\setsansfont[Scale=MatchLowercase]{\l_glo_sansfont_tl}
+\setmonofont[Scale=MatchLowercase]{\l_glo_monofont_tl}
+%\setmathfont{TeX Gyre Schola}
+
+\newlength{\charwidth}
+\charWidth{\cw}[\normalfont\normalsize]
+\setlength{\charwidth}{\cw}
+\setlength{\textwidth}{\l_glo_cpl_oc_int\charwidth}
+%\setlength{\columnwidth}{\l_glo_cpl_tc_int\charwidth}
+
+\cs_new_protected:Nn \fontsize_scale:nnn {
+	\dim_zero_new:N #1
+	%\font_size:n {\fontscale_fsize_dim}
+	\dim_set:Nn #1 { \fp_to_decimal:n { \fp_eval:n {
+		round( #2 * \c_layout_golden_ratio_fp ^ (#3 / 2) , 2)
+	} } pt }
+}
+
+% #1 fontsize
+% #2 cpl
+\NewDocumentCommand{\setfontsizes}{mm} {
+	\fontsize_scale:nnn {\fs_normal}{#1}{0} 	 \lineheights {\lh_normal}{\fs_normal}{#2}
+	\fontsize_scale:nnn {\fs_tiny}{#1}{-4}  	 \lineheights {\lh_tiny}{\fs_tiny}{#2}{\tiny}
+	\fontsize_scale:nnn {\fs_scriptsize}{#1}{-3} \lineheights {\lh_scriptsize}{\fs_scriptsize}{#2}{\scriptsize}
+	\fontsize_scale:nnn {\fs_footnotesize}{#1}{-2} \lineheights {\lh_footnotesize}{\fs_footnotesize}{#2}{\footnotesize}
+	\fontsize_scale:nnn {\fs_small}{#1}{-1}		 \lineheights {\lh_small}{\fs_small}{#2}{\small}
+	\fontsize_scale:nnn {\fs_large}{#1}{1} 		 \lineheights {\lh_large}{\fs_large}{#2}{\large}
+	\fontsize_scale:nnn {\fs_Large}{#1}{2} 		 \lineheights {\lh_Large}{\fs_Large}{#2}{\Large}
+	\fontsize_scale:nnn {\fs_LARGE}{#1}{3} 		 \lineheights {\lh_LARGE}{\fs_LARGE}{#2}{\LARGE}
+	\fontsize_scale:nnn {\fs_huge}{#1}{4} 		 \lineheights {\lh_huge}{\fs_huge}{#2}{\huge}
+	\fontsize_scale:nnn {\fs_Huge}{#1}{5} 		 \lineheights {\lh_Huge}{\fs_Huge}{#2}{\Huge}
+
+	\makeatletter %only needed in preamble
+	\renewcommand\normalsize{\@setfontsize\normalsize{\fs_normal}{\lh_normal}}
+	\renewcommand\tiny{\@setfontsize\tiny{\fs_tiny}{\lh_tiny}}
+	\renewcommand\scriptsize{\@setfontsize\scriptsize{\fs_scriptsize}{\lh_scriptsize}}
+	\renewcommand\footnotesize{\@setfontsize\footnotesize{\fs_footnotesize}{\lh_footnotesize}}
+	\renewcommand\small{\@setfontsize\large{\fs_small}{\lh_small}}
+	\renewcommand\large{\@setfontsize\large{\fs_large}{\lh_large}}
+	\renewcommand\Large{\@setfontsize\Large{\fs_Large}{\lh_Large}}
+	\renewcommand\LARGE{\@setfontsize\LARGE{\fs_LARGE}{\lh_LARGE}}
+	\renewcommand\huge{\@setfontsize\huge{\fs_huge}{\lh_huge}}
+	\renewcommand\Huge{\@setfontsize\Huge{\fs_Huge}{\lh_Huge}}
+	\makeatother
+}
+
+\AtBeginDocument{
+
+\setfontsizes{\l_glo_fontsize_dim}{\l_glo_cpl_oc_int}
+
+
+% main font
+\capHeight{\mch}[\normalfont\normalsize]
+\xHeight{\mxh}[\normalfont\normalsize]
+
+\capHeight{\cheight}
+\lineHeight{\serifheight}{\cheight}{\l_glo_cpl_oc_int}
+
+
+\cs_new_eq:NN \convertlen \dim_to_decimal_in_unit:nn
+
+
+\msg_info:nnx {goldenlayout} {info-message}{
+	\fontname\font \iow_newline:
+	textwidth:~ \convertlen{\the\textwidth}{1mm}~mm \iow_newline:
+	linewidth:~ \convertlen{\the\linewidth}{1mm}~mm \iow_newline:
+	columnwidth:~ \convertlen{\the\columnwidth}{1mm}~mm \iow_newline:
+	charwidth: \convertlen{\the\charwidth}{1mm}~mm \iow_newline:
+	baseline:~ \the\baselineskip ~ (\convertlen{\the\baselineskip}{1mm}~mm) \iow_newline:
+	Anatomy~of~main~font: \iow_newline:
+	cap-height: \convertlen{\the\mch}{1mm}~mm~
+	%x-height:~ \convertlen{\the\mxh}{1mm}~mm \iow_newline:
+	%Anatomy~of~sans~font: \iow_newline:
+	%cap-height: \convertlen{\the\sch}{1mm}~mm~
+	%x-height:~ \convertlen{\the\sxh}{1mm}~mm \iow_newline:
+}
+
+} % atBeginDocument
+
+
+
+\ExplSyntaxOff
