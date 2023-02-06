@@ -93,7 +93,18 @@
 	} } pt }
 }
 
+\cs_new_protected:Npn \typo_set_leading:Nn #1#2 {
+	\group_begin:
+		\dim_zero_new:N \glo_totalheight_dim
+		\dim_zero_new:N \glo_lineheight_dim
+		\typo_set_totalheight:Nn \glo_totalheight_dim {#2}
+		\glo_lineheight:Nnnn \glo_lineheight_dim{\glo_cpl_int}{\l_glo_widthfactor_int}{#2}
+		\exp_args:NNNe 
+	\group_end:
+	\dim_set:Nn #1 { \dim_eval:n { \glo_lineheight_dim - \glo_totalheight_dim } }
+}
 
+\newlength\leading
 \setlength\textwidth{66\charwidth}
 
 \AtBeginDocument{
@@ -103,6 +114,8 @@
 
 \int_new:N \glo_cpl_int
 \int_set:Nn \glo_cpl_int {\l_glo_cpl_oc_int}
+
+\typo_set_leading:Nn \leading {\normalsize}
 
 \fontsize_scale:Nnn \sfs_size_tiny{\glo_fontsize_dim}{-4}
 \glo_lineheight:Nnnn \sfs_height_tiny{\glo_cpl_int}{\l_glo_widthfactor_int}{\tiny}
