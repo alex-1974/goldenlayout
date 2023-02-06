@@ -24,15 +24,9 @@
 	twocolumncpl		.int_set:N = \l_glo_cpl_tc_int,
 	twocolumncpl		.initial:n = 45,
 	twocolumncpl		.value_required:n = true,
-	seriffont			.tl_set:N = \l_glo_seriffont_tl,
-	seriffont			.initial:n = { Linux Libertine O },
-	seriffont			.value_required:n = true,
-	sansfont			.tl_set:N = \l_glo_sansfont_tl,
-	sansfont			.initial:n = { Linux Biolinum O },
-	sansfont			.value_required:n = true,
-	monofont			.tl_set:N = \l_glo_monofont_tl,
-	monofont			.initial:n = { Droid Sans Mono },
-	monofont			.value_required:n = true,
+	widthfactor			.int_set:N = \l_glo_widthfactor_int,
+	widthfactor			.initial:n = 34,
+	widthfactor			.value_required:n = true,
 }
 
 \ProcessKeysOptions { glo }
@@ -104,45 +98,51 @@
 
 \AtBeginDocument{
 
-\fontsize_scale:Nnn \sfs_size_tiny{10pt}{-4}
-\glo_lineheight:Nnnn \sfs_height_tiny{66}{34}{\tiny}
+\dim_new:N \glo_fontsize_dim
+\dim_set:Nn \glo_fontsize_dim {\documentFontsize}
+
+\int_new:N \glo_cpl_int
+\int_set:Nn \glo_cpl_int {\l_glo_cpl_oc_int}
+
+\fontsize_scale:Nnn \sfs_size_tiny{\glo_fontsize_dim}{-4}
+\glo_lineheight:Nnnn \sfs_height_tiny{\glo_cpl_int}{\l_glo_widthfactor_int}{\tiny}
 \renewcommand\tiny{\@setfontsize\tiny{\sfs_size_tiny}{\sfs_height_tiny}}
 
-\fontsize_scale:Nnn \sfs_size_scriptsize{10pt}{-3}
-\glo_lineheight:Nnnn \sfs_height_scriptsize{66}{34}{\scriptsize}
+\fontsize_scale:Nnn \sfs_size_scriptsize{\glo_fontsize_dim}{-3}
+\glo_lineheight:Nnnn \sfs_height_scriptsize{\glo_cpl_int}{\l_glo_widthfactor_int}{\scriptsize}
 \renewcommand\scriptsize{\@setfontsize\scriptsize{\sfs_size_scriptsizee}{\sfs_height_scriptsize}}
 
-\fontsize_scale:Nnn \sfs_size_footnotesize{10pt}{-2}
-\glo_lineheight:Nnnn \sfs_height_footnotesize{66}{34}{\footnotesize}
+\fontsize_scale:Nnn \sfs_size_footnotesize{\glo_fontsize_dim}{-2}
+\glo_lineheight:Nnnn \sfs_height_footnotesize{\glo_cpl_int}{\l_glo_widthfactor_int}{\footnotesize}
 \renewcommand\footnotesize{\@setfontsize\footnotesize{\sfs_size_footnotesize}{\sfs_height_footnotesize}}
 
-\fontsize_scale:Nnn \sfs_size_small{10pt}{-1}
-\glo_lineheight:Nnnn \sfs_height_small{66}{34}{\small}
+\fontsize_scale:Nnn \sfs_size_small{\glo_fontsize_dim}{-1}
+\glo_lineheight:Nnnn \sfs_height_small{\glo_cpl_int}{\l_glo_widthfactor_int}{\small}
 \renewcommand\small{\@setfontsize\small{\sfs_size_small}{\sfs_height_small}}
 
-\fontsize_scale:Nnn \sfs_size_normal{10pt}{0}
-\glo_lineheight:Nnnn \sfs_height_normal{66}{34}{\normalsize}
+\fontsize_scale:Nnn \sfs_size_normal{\glo_fontsize_dim}{0}
+\glo_lineheight:Nnnn \sfs_height_normal{\glo_cpl_int}{\l_glo_widthfactor_int}{\normalsize}
 \renewcommand\normalsize{\@setfontsize\normalsize{\sfs_size_normal}{\sfs_height_normal}}
 \setlength{\baselineskip}{\sfs_height_normal}
 
-\fontsize_scale:Nnn \sfs_size_large{10pt}{1}
-\glo_lineheight:Nnnn \sfs_height_large{66}{34}{\large}
+\fontsize_scale:Nnn \sfs_size_large{\glo_fontsize_dim}{1}
+\glo_lineheight:Nnnn \sfs_height_large{\glo_cpl_int}{\l_glo_widthfactor_int}{\large}
 \renewcommand\large{\@setfontsize\large{\sfs_size_large}{\sfs_height_large}}
 
-\fontsize_scale:Nnn \sfs_size_Large{10pt}{2}
-\glo_lineheight:Nnnn \sfs_height_Large{66}{34}{\Large}
+\fontsize_scale:Nnn \sfs_size_Large{\glo_fontsize_dim}{2}
+\glo_lineheight:Nnnn \sfs_height_Large{\glo_cpl_int}{\l_glo_widthfactor_int}{\Large}
 \renewcommand\Large{\@setfontsize\Large{\sfs_size_Large}{\sfs_height_Large}}
 
-\fontsize_scale:Nnn \sfs_size_LARGE{10pt}{3}
-\glo_lineheight:Nnnn \sfs_height_LARGE{66}{34}{\LARGE}
+\fontsize_scale:Nnn \sfs_size_LARGE{\glo_fontsize_dim}{3}
+\glo_lineheight:Nnnn \sfs_height_LARGE{\glo_cpl_int}{\l_glo_widthfactor_int}{\LARGE}
 \renewcommand\LARGE{\@setfontsize\LARGE{\sfs_size_LARGE}{\sfs_height_LARGE}}
 
-\fontsize_scale:Nnn \sfs_size_huge{10pt}{4}
-\glo_lineheight:Nnnn \sfs_height_huge{66}{34}{\huge}
+\fontsize_scale:Nnn \sfs_size_huge{\glo_fontsize_dim}{4}
+\glo_lineheight:Nnnn \sfs_height_huge{\glo_cpl_int}{\l_glo_widthfactor_int}{\huge}
 \renewcommand\huge{\@setfontsize\huge{\sfs_size_huge}{\sfs_height_huge}}
 
-\fontsize_scale:Nnn \sfs_size_Huge{10pt}{5}
-\glo_lineheight:Nnnn \sfs_height_Huge{66}{34}{\Huge}
+\fontsize_scale:Nnn \sfs_size_Huge{\glo_fontsize_dim}{5}
+\glo_lineheight:Nnnn \sfs_height_Huge{\glo_cpl_int}{\l_glo_widthfactor_int}{\Huge}
 \renewcommand\Huge{\@setfontsize\Huge{\sfs_size_Huge}{\sfs_height_Huge}}
 
 }
