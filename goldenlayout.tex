@@ -5,31 +5,42 @@
 \setmainlanguage[variant=british]{english}
 \setotherlanguage[babelshorthands=true]{german}
 
-\usepackage{xcolor}
-\usepackage{booktabs}
-\usepackage{goldenlayout}
-
 \defaultfontfeatures{Scale=MatchLowercase}
 \setmainfont[Ligatures=TeX]{Linux Libertine O}
 \setsansfont[Ligatures=TeX]{Linux Biolinum O}
 
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage[fontsize=12pt]{goldenlayout}
+
+
 \setlength{\parindent}{0pt}
 \reversemarginpar
 
-%\newcommand\alphabet{abcdefghijklmnopqrstuvwxyz}
-%\newlength{\charwidth}
-%\settowidth{\charwidth}{\alphabet}
-%\setlength{\textwidth}{2.7\charwidth}
-
 \title{\textnormal{The \textbf{goldenlayout} Package}}
 \author{Alexander Bernardi}
-%\date{\milDate{17.01.2023}}
 
 \begin{document}
 \maketitle
 
 \section{Introduction}
 
-Blablabla
+The \textbf{goldenlayout} sets various layout parameters according to the golden ratio.
+
+\section{Options}
+
+The \textbf{goldenlayout} can be customised by optional global parameters.
+
+\noindent\marginpar{fontsize} The \textbf{milDate} package identifies the language used in the document and sets the month names accordingly. The behavior can be overridden by setting the \verb+lang+ option.
+Currently german and english are available.
+
+\noindent\marginpar{chars per line}
+
+\noindent\marginpar{widthfactor}
+
+
+\section{Commands}
+
+\noindent\marginpar{milTime} The \textbf{milTime} command sets the time in 24 hour format hhmm without delimiter. The time zone is optional.
 
 \end{document}
