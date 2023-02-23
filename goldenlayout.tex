@@ -25,14 +25,68 @@
 
 \section{Introduction}
 
-The \textbf{goldenlayout} sets various layout parameters according to the golden ratio.
+\subsection{Typography}
+
+The aim of the \textbf{goldenlayout} class is to fit the text within a given content width by using the golden ratio.
+The golden ratio forms the basis for the design in terms of size, spacing and typography. 
+
+\begin{itemize}
+	\item a typographic scale based on the primary font size
+	\item corresponding line heights for the typographic scale
+	\item spacing units based on the line height associated with the primary font size
+\end{itemize}
+
+The golden ratio is defined as
+
+\begin{equation}
+\phi = \frac{1+\sqrt{5}}{2} = 1,6180339887
+\end{equation}
+
+
+\subsubsection{Fontsize}
+
+For each primary font size f, we can apply the golden ratio to determine a typographic scale with different font sizes
+
+\begin{equation}
+f = f\phi^{\frac{n}{2}}
+\end{equation}
+
+\begin{table}
+\begin{tabular}{ll}
+{\Huge Huge} & {\Huge \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\huge huge} & {\huge \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\LARGE LARGE} & {\LARGE \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\Large Large} & {\Large \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\large large} & {\large \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\normalsize normal} & {\normalsize \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\small small} & {\small \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\footnotesize footnotesize} & {\footnotesize \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\scriptsize scriptsize} & {\scriptsize \getDocumentFontsize\,@\,\the\baselineskip} \\
+{\tiny tiny} & {\tiny \getDocumentFontsize\,@\,\the\baselineskip} \\
+\end{tabular}
+\caption{Font size scale and corresponding line height}
+\end{table}
+
+\subsubsection{Line height}
+
+For each font size f, a golden line height $h_{\phi}$ can be expressed as follows
+
+\begin{equation}
+h_{\phi} = f\phi
+\end{equation}
+
+Experience and research show, as the length of the text lines increases, the line height must also increase in order to maintain proportionality and thus readability.
+As a consequence, the line height must be adapted to the context in which it is presented, i.e. the line height must be adapted to the width of the content.
+
+\begin{equation}
+h = f\left[(3-\phi)+(2\phi-3)\frac{w}{fx_{w}}+\frac{x-(\phi-1)}{\phi}\right]
+\end{equation}
 
 \section{Options}
 
 The \textbf{goldenlayout} can be customised by optional global parameters.
 
-\noindent\marginpar{fontsize} The \textbf{milDate} package identifies the language used in the document and sets the month names accordingly. The behavior can be overridden by setting the \verb+lang+ option.
-Currently german and english are available.
+\noindent\marginpar{fontsize} 
 
 \noindent\marginpar{chars per line}
 
